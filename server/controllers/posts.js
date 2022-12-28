@@ -11,10 +11,13 @@ export const getPosts=async (req,res)=>{
 }
 
 export const postCreate=async (req,res)=>{
+   // console.log("pls help me");
  const msg=req.body;
  const newPost=new postMessage(msg);
+ console.log(newPost);
  try{
     await newPost.save();
+    res.send(newPost);
     res.status(201);
 
  }
