@@ -11,7 +11,7 @@ import {Provider} from 'react-redux';
 //that allow to access that store from anywhere inside of the app
 import {createStore,applyMiddleware,compose} from 'redux';
 import thunk from 'redux-thunk';
-
+import './index.css'
 const store=createStore(reducers,compose(applyMiddleware(thunk)));
 // console.log(reducers);
 ReactDom.render(

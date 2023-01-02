@@ -12,3 +12,6 @@ export const createPosts=async(newPost)=>{
     await axios.post(url,newPost);
     console.log("completed");
 }
+export const updatePosts=(id,updatedPost)=>{
+    axios.patch(`${url}/${id}`,updatedPost);
+}

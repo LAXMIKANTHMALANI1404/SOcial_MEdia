@@ -1,21 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import useStyles from './Styles';
 import { Typography, TextField, Paper, StepConnector,Button} from '@material-ui/core';
 import FileBase from 'react-file-base64';
-import {useDispatch} from 'react-redux';
-import {createPosts} from '../../actions/posts'
-const Form = () => {
+import {useDispatch,useSelector} from 'react-redux';
+import {createPosts,updatePost} from '../../actions/posts'
+import { getposts } from './../../actions/posts';
+
+// import { updatePost } from './../../../../../server/controllers/posts';
+const Form = ({currentId,setCurrentId}) => {
     const dispatch=useDispatch();
     const classes = useStyles();
+    const post=useSelector((state)=>currentId?state.posts.find((p)=>p._id===currentId):null);
     const [postData, setpostData] = useState({ creator: "", title: "", message: "", tags: "", selectedFile: ""});
     const clear=()=>{
+        setpostData({ creator: "", title: "", message: "", tags: "", selectedFile: "" });
 
     }
+    
+    useEffect(()=>{
+        if(post){setpostData(post)};
+    },[post])
+ 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(createPosts(postData));
+        if(currentId){
+            dispatch(updatePost(currentId,postData));
+        }
+        else{
+            dispatch(createPosts(postData));
+
+        }
         console.log(postData);
+        // const dispatch = useDispatch();
+
     }
+    // useEffect(() => { dispatch(getposts());console.log("hia") }, [handleSubmit]);
+
     return (
         <Paper className='classes.paper' >
             <form autoComplete='off' noValidate className={`${classes.root} ${classes.form}`}>
@@ -29,7 +49,7 @@ const Form = () => {
                     <FileBase type="file" multiple={false} onDone={(base64) => {setpostData({ ...postData, selectedFile: base64 });}}/>
                 </div>
                 <Button className={classes.buttonSubmit} variant='contained' color='primary' size='large'  fullWidth onClick={(e)=>handleSubmit(e)}>Submit</Button>
-                <Button variant='contained' color='secondary' size='small' onClick={()=>{}} fullWidth>Clear</Button>
+                <Button variant='contained' color='secondary' size='small' onClick={()=>{clear()}} fullWidth>Clear</Button>
 
             </form>
 

@@ -1,4 +1,5 @@
 import * as api from '../api/index.js';
+// import { updatePost } from './../../../../server/controllers/posts';
 export const getposts=()=>async(dispatch)=>{
     try{
         const data=await api.fetchposts();
@@ -17,6 +18,15 @@ export const createPosts=(post)=>async(dispatch)=>{
             console.log(data);
             dispatch({type:'CREATE',payload:post});
     }
+    catch(error){
+        console.log(error);
+    }
+}
+export const updatePost=(currentId,post)=>async(dispatch)=>{
+    try{
+        const data  =await api.updatePosts(currentId,post);
+        dispatch({type:'UPDATE',payload:data});
+    }   
     catch(error){
         console.log(error);
     }
