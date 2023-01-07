@@ -14,7 +14,10 @@ const postSchema = new mongoose.Schema({
         type : Date,
         default : new Date,
     },
-}); 
+    // { typeKey: '$type' }
+},
+    // { typeKey: '$type' }
+    ); 
 
 const postMessage=mongoose.model('postMessage',postSchema);
 
