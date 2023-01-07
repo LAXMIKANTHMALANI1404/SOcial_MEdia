@@ -39,3 +39,13 @@ if(!(ObjectId.isValid(_id))){
 const updatedPost=await postMessage.findByIdAndUpdate(_id,{...post,_id},{new:true});
 res.json(updatedPost);
 }
+export const deletePost=async(req,res)=>{
+   console.log("hi");
+   const {id:_id}=req.params;
+   console.log(_id);
+   if (!(ObjectId.isValid(_id))) {
+      return res.status(404).send('No post with that id');
+   }
+   const deleted=await postMessage.findByIdAndDelete(_id);
+   res.json({message:"post successfully deleted"});
+}

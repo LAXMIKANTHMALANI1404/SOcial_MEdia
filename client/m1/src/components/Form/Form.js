@@ -37,7 +37,7 @@ const Form = ({currentId,setCurrentId}) => {
         
         console.log(postData);
         // document.location.reload();
-        window.location.reload(false);
+        // window.location.reload(false);
    
 
     }

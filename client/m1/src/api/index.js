@@ -9,9 +9,15 @@ export const fetchposts=async()=>{
 }
 export const createPosts=async(newPost)=>{
     console.log("api",newPost);
-    await axios.post(url,newPost);
-    console.log("completed");
+    const x=await axios.post(url,newPost);
+    console.log("completed",x);
+    return x.data;
 }
 export const updatePosts=(id,updatedPost)=>{
     axios.patch(`${url}/${id}`,updatedPost);
+}
+export const deletePost=async(id)=>{
+    await axios.delete(`${url}/${id}`);
+    console.log("hi");
+
 }

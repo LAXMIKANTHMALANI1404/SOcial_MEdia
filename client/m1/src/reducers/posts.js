@@ -6,8 +6,8 @@ export default (posts=[],action)=>{
             return action.payload;
         case 'CREATE':
             console.log(action.payload);
-            console.log(posts);
-            // return [...posts,action.payload];
+            // console.log(posts);
+            return [...posts,action.payload];
             return action.payload;
         case 'UPDATE':
               posts.map((post)=>{
@@ -16,6 +16,14 @@ export default (posts=[],action)=>{
                 }
                 return post;
              })
+        case 'DELETE':
+            return posts.filter((posts) => posts._id !== action.payload)
+            // posts.map((post)=>{
+            //     if(post._id!==action.payload){
+                    
+            //         return post;
+            //     }
+            // })
         default:
             // return posts;
             return [];
