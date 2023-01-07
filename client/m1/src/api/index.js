@@ -1,4 +1,5 @@
 import axios from 'axios';//used to make api calls
+// import { likePost } from './../../../../server/controllers/posts';
 
 const url="http://localhost:5000/posts";//url pointing to backend
 
@@ -18,6 +19,13 @@ export const updatePosts=(id,updatedPost)=>{
 }
 export const deletePost=async(id)=>{
     await axios.delete(`${url}/${id}`);
-    console.log("hi");
+    // console.log("hi");
+
+}
+export const likePost=async(id)=>{
+    
+
+    return await axios.patch(`${url}/${id}/likePost`);
+    console.log("hia");
 
 }

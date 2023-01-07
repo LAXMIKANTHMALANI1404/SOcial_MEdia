@@ -7,7 +7,7 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 import { useDispatch } from "react-redux";
 // import pic from './../../../assets/memories.jpg';
 import moment from 'moment';
-import {deletePost} from '../../../actions/posts';
+import {deletePost,likePost} from '../../../actions/posts';
 const Post = ({ post,setCurrentId,currentId }) => {
     const dispatch=useDispatch();
     const classes = useStyles();
@@ -30,7 +30,7 @@ const Post = ({ post,setCurrentId,currentId }) => {
                 </div>
 
                 <div className={classes.overlay2}>
-                    <Button style={{ color: 'white' }} size="small" onClick={() => { setCurrentId(post._id)}} >
+                    <Button style={{ color: 'white' }} size="small" onClick={() => {setCurrentId(post._id)}} >
                         <MoreHorizIcon fontSize="medium" />
                     </Button>
                 </div>
@@ -46,7 +46,7 @@ const Post = ({ post,setCurrentId,currentId }) => {
                 </CardContent>
 
                 <CardActions className={classes.cardActions}>
-                    <Button size="small" color="primary" onClick={()=>{}}>
+                    <Button size="small" color="primary" onClick={()=>{dispatch(likePost(post._id))}}>
                         <ThumbUpAltIcon fontSize="small"/>
                         Like
                         {post.likeCount}
