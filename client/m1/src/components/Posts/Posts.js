@@ -16,9 +16,10 @@ const Posts = ({setCurrentId})=>{
     // posts.map(item=>{console.log(item)});
     console.log(typeof (posts));
     // console.log(posts.posts);
-    var x = posts.posts;
+    const x = posts.posts;
+    console.log("Seehere",x);
     // var x=[{_id:"23",creator:"lkm"}];
-    console.log(x);
+    // console.log(x.length);
     return (
         <>
             {!x.length ? <CircularProgress /> :

@@ -10,7 +10,7 @@ export default (posts=[],action)=>{
             // return [...posts,action.payload];
             return action.payload;
         case 'UPDATE':
-             return posts.map((post)=>{
+              posts.map((post)=>{
                 if(post._id===action.payload._id){
                     return action.payload;
                 }
