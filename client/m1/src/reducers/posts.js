@@ -10,6 +10,7 @@ export default (posts=[],action)=>{
             return [...posts,action.payload];
             return action.payload;
         case 'UPDATE':
+            console.log(action);
               posts.map((post)=>{
                 if(post._id===action.payload._id){
                     return action.payload;
@@ -24,6 +25,14 @@ export default (posts=[],action)=>{
             //         return post;
             //     }
             // })
+        case 'LIKE':
+            return posts.map((post)=>{
+                if(post._id===action.payload._id){
+                    const like=post.likeCount;
+                    return {...post,likeCount:action.payload.likeCount};
+                }
+                return post;
+            })
         default:
             // return posts;
             return [];

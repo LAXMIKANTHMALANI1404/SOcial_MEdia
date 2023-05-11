@@ -5,6 +5,7 @@ import Posts from './components/Posts/Posts';
 import useStyles from './Styles';
 import { useDispatch } from 'react-redux';
 import { getposts } from './actions/posts';
+import { useTheme } from '@material-ui/core';
 // import pic from './assets/memories.jpg';
 import './App.css';
 
@@ -12,10 +13,10 @@ import './App.css';
 
 const App = () => {
   const dispatch = useDispatch();
-
+  const theme = useTheme();
   const [currentId, setCurrentId] = useState(null);
   useEffect(() => { dispatch(getposts()); }, [currentId, dispatch]);
-  const classes = useStyles();
+  const classes = useStyles(theme);
   return (
     <Container maxWidth="lg">
       <AppBar className={classes.appBar} position='static' color="inherit">
@@ -33,7 +34,7 @@ const App = () => {
       </AppBar>
       <Grow in >
         <Container>
-          <Grid container justifyContent="space-between" alignItems='stretch' spacing={3}>
+          <Grid container className={classes.mainContainer} justifyContent="space-between" alignItems='stretch' spacing={3} >
             <Grid item xs={12} sm={7}>
               <Posts setCurrentId={setCurrentId} />
             </Grid>
