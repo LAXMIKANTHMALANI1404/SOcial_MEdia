@@ -7,7 +7,7 @@ import {createPosts,updatePost} from '../../actions/posts'
 // import { updatePost } from './../../../../../server/controllers/posts';
 const Form = ({currentId,setCurrentId}) => {
     const dispatch=useDispatch();
-    const [, updateState] = React.useState();
+    const [updateState] = React.useState();
     // const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
     const classes = useStyles();
     const post=useSelector((state)=>currentId?state.posts.find((p)=>p._id===currentId):null);
