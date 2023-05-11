@@ -11,13 +11,12 @@ const Posts = ({setCurrentId})=>{
    
     const posts=useSelector((state)=>state);
 
-    console.log("posts");
-    console.log((posts));
+    // console.log((posts));
     // posts.map(item=>{console.log(item)});
-    console.log(typeof (posts));
+    // console.log(typeof (posts));
     // console.log(posts.posts);
     const x = posts.posts;
-    console.log("Seehere",x);
+    // console.log("Seehere",x);
     // var x=[{_id:"23",creator:"lkm"}];
     // console.log(x.length);
     return (

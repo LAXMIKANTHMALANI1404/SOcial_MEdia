@@ -1,50 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { Container, AppBar, Typography, Grow, Grid } from '@material-ui/core';
-import Form from './components/Form/Form';
-import Posts from './components/Posts/Posts';
-import useStyles from './Styles';
-import { useDispatch } from 'react-redux';
-import { getposts } from './actions/posts';
-import { useTheme } from '@material-ui/core';
-// import pic from './assets/memories.jpg';
-import './App.css';
+import React from 'react';
+import { Container } from '@material-ui/core';
 
-// import { getPosts } from './../../../server/controllers/posts';
+import useStyles from './Styles';
+import { useTheme } from '@material-ui/core';
+import Navbar from './components/Navbar/Navbar';
+import { BrowserRouter, Route,Routes } from 'react-router-dom';
+
+import './App.css';
+import Home from './components/Home/Home';
+import Auth from './components/Auth/Auth';
 
 const App = () => {
-  const dispatch = useDispatch();
   const theme = useTheme();
-  const [currentId, setCurrentId] = useState(null);
-  useEffect(() => { dispatch(getposts()); }, [currentId, dispatch]);
+
   const classes = useStyles(theme);
   return (
-    <Container maxWidth="lg">
-      <AppBar className={classes.appBar} position='static' color="inherit">
-        <Typography variant="h2" align="center">
-          <img className={classes.image}
-            // src={pic}
-            src="https://images.unsplash.com/photo-1607827447604-d9a8c439186e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8bWVtb3JpZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"
-            height="60px" />
+    <BrowserRouter>
+      <Container maxWidth="lg">
+        <Navbar />
+        <Routes>
+        <Route path="/" element={<Home/>}/>
+        <Route path="/auth"  element={<Auth/>}/>
+        </Routes>
+      </Container>
+    </BrowserRouter>
 
-          Memories
-        </Typography>
-
-
-
-      </AppBar>
-      <Grow in >
-        <Container>
-          <Grid container className={classes.mainContainer} justifyContent="space-between" alignItems='stretch' spacing={3} >
-            <Grid item xs={12} sm={7}>
-              <Posts setCurrentId={setCurrentId} />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Form currentId={currentId} setCurrentId={setCurrentId} />
-            </Grid>
-          </Grid>
-        </Container>
-      </Grow>
-    </Container>
   )
 }
 

@@ -19,6 +19,8 @@ export default makeStyles({
         justifyContent: 'space-between',
         borderRadius: '15px',
         height: '100%',
+        minHeight:'300px',
+        minWidth:'300px',
         position: 'relative',
         margin:'10px',
         // width:'175px',

@@ -5,21 +5,48 @@ import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
 import DeleteIcon from '@material-ui/icons/Delete'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 import { useDispatch } from "react-redux";
+import jwt from 'jsonwebtoken';
+
 // import pic from './../../../assets/memories.jpg';
 import moment from 'moment';
-import {deletePost,likePost} from '../../../actions/posts';
-const Post = ({ post,setCurrentId,currentId }) => {
-    const dispatch=useDispatch();
+import { deletePost, likePost } from '../../../actions/posts';
+const Post = ({ post, setCurrentId, currentId }) => {
+    const dispatch = useDispatch();
     const classes = useStyles();
+    let userId = null;
+    const creatorId = post.creatorId;
+    //creatorId corresponds to id of the one who created post and we will check it against the userId of present user using token
+
+    //jwt ->json web token-> header,payload,signature
+    //header consists type of token which is jwt and signing algorithm used (JWT uses HMAC algorithm)
+    //  to access a protected route or resource, the user agent should send the JWT, typically in the Authorization header using the Bearer schema.
+    if (localStorage.getItem('profile')) {
+        const token = (JSON.parse(localStorage.getItem('profile')).tokenId);
+        const isCustomAuth = (token.length) < 500;
+        let decodedData;
+        if (token && isCustomAuth) {
+            decodedData = jwt.decode(token);
+            // decodedData = jwt.verify(token, 'test');
+            // console.log(token);
+            userId = decodedData?.id;
+        }
+        else {
+            console.log(token);
+            decodedData = jwt.decode(token);
+            userId = decodedData?.sub;
+        }
+    }
+    // console.log(userId, creatorId);
+
     return (
         <>
             <Card className={classes.card}>
 
                 {/* <CardMedia className={classes.media} image={post.selectedFile} title={post.title} /> */}
-                <CardMedia className={classes.media} 
-                image={post.selectedFile||
-                    "https://images.unsplash.com/photo-1486324461499-e5473c429107?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                }title={post.title}/>
+                <CardMedia className={classes.media}
+                    image={post.selectedFile ||
+                        "https://images.unsplash.com/photo-1486324461499-e5473c429107?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+                    } title={post.title} />
 
                 {/* {console.log(post.creator)} */}
                 {/* <Typography variant="h1">Hello</Typography> */}
@@ -28,12 +55,12 @@ const Post = ({ post,setCurrentId,currentId }) => {
                     <Typography variant="h6" color="textPrimary" >{post.creator}</Typography>
                     <Typography variant="body2">{moment(post.createdAt).fromNow()}</Typography>
                 </div>
-
-                <div className={classes.overlay2}>
-                    <Button style={{ color: 'white' }} size="small" onClick={() => {setCurrentId(post._id)}} >
-                        <MoreHorizIcon fontSize="medium" />
-                    </Button>
-                </div>
+                {userId && userId === creatorId &&
+                    <div className={classes.overlay2}>
+                        <Button style={{ color: 'white' }} size="small" onClick={() => { setCurrentId(post._id) }} >
+                            <MoreHorizIcon fontSize="medium" />
+                        </Button>
+                    </div>}
 
                 <div className={classes.details}>
                     <Typography variant="body2" color="textSecondary" component="h2">{post.tags.map((tag) => `#${tag} `)}</Typography>
@@ -42,18 +69,19 @@ const Post = ({ post,setCurrentId,currentId }) => {
                 <Typography className={classes.title} variant="h5" gutterBottom>{post.title}</Typography>
 
                 <CardContent>
-                    <Typography   color="textSecondary" component="p" >{post.message}</Typography>
+                    <Typography color="textSecondary" component="p" >{post.message}</Typography>
                 </CardContent>
 
                 <CardActions className={classes.cardActions}>
-                    <Button size="small" color="primary" onClick={()=>{dispatch(likePost(post._id))}}>
-                        <ThumbUpAltIcon fontSize="small"/>
-                        {`Like ${post.likeCount}`}
+                    <Button size="small" color="primary" onClick={() => { dispatch(likePost(post._id)) }}>
+                        <ThumbUpAltIcon fontSize="small" />
+                        {`Like ${post.likes.length}`}
                     </Button>
-                    <Button size="small" color="primary" onClick={() => {dispatch(deletePost(post._id)) }}>
-                        <DeleteIcon fontSize="small" />
-                        Delete
-                    </Button>
+                    {userId && userId === creatorId &&
+                        <Button size="small" color="primary" onClick={() => { dispatch(deletePost(post._id)) }}>
+                            <DeleteIcon fontSize="small" />
+                            Delete
+                        </Button>}
                 </CardActions>
 
 
@@ -80,7 +108,7 @@ export default Post;
 
 //     return (
 //         <Card className={classes.card}>
-//             <CardMedia className={classes.media} image={post.selectedFile || 
+//             <CardMedia className={classes.media} image={post.selectedFile ||
 //                                 "https://images.unsplash.com/photo-1563291074-2bf8677ac0e5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8cGxhaW58ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"
 //                 } title={post.title} />
 //             <div className={classes.overlay}>
@@ -98,7 +126,7 @@ export default Post;
 //                 <Typography variant="body2" color="textSecondary" component="p">{post.message}</Typography>
 //             </CardContent>
 //             <CardActions className={classes.cardActions}>
-//                 <Button size="small" color="primary" onClick={() => 
+//                 <Button size="small" color="primary" onClick={() =>
 //                     // dispatch(likePost(post._id))
 //                 {}}><ThumbUpAltIcon fontSize="small" /> Like {post.likeCount} </Button>
 //                 <Button size="small" color="primary" onClick={() =>{}
